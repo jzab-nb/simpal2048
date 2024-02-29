@@ -7,17 +7,17 @@ function sleep(time){
 }
 win = false;
 map = {
-    2: "陌生人",
-    4: "一面之交",
-    8: "同学",
-    16: "朋友",
-    32: "好朋友",
-    64: "知己",
-    128: "暧昧",
-    256: "恋人",
-    512: "热恋",
-    1024: "结婚",
-    2048: "老伴",
+    2: "2",
+    4: "4",
+    8: "8",
+    16: "16",
+    32: "32",
+    64: "64",
+    128: "128",
+    256: "256",
+    512: "512",
+    1024: "1024",
+    2048: "2048",
 }
 // 0,0位置为9,9
 // 1,1位置为126.5,126.5
@@ -325,11 +325,124 @@ alert("最近更新：\n\
 2022-7-31:\n\
 1.新增对胜利的判定\n\
 2.调整为七夕玩法\n\
+2022-8-2:\n\
+1.添加了触摸屏的玩法,但电脑体验最佳\n\
+2022-9-4:\n\
+1.改变为普通玩法\n\
 ")
+var EventUtil = {
+    addHandler: function (element, type, handler) {
+        if (element.addEventListener)
+            element.addEventListener(type, handler, false);
+        else if (element.attachEvent)
+            element.attachEvent("on" + type, handler);
+        else
+            element["on" + type] = handler;
+    },
+    removeHandler: function (element, type, handler) {
+        if(element.removeEventListener)
+            element.removeEventListener(type, handler, false);
+        else if(element.detachEvent)
+            element.detachEvent("on" + type, handler);
+        else
+            element["on" + type] = handler;
+    },
+    /**
+     * 监听触摸的方向
+     * @param target            要绑定监听的目标元素
+     * @param isPreventDefault  是否屏蔽掉触摸滑动的默认行为（例如页面的上下滚动，缩放等）
+     * @param upCallback        向上滑动的监听回调（若不关心，可以不传，或传false）
+     * @param rightCallback     向右滑动的监听回调（若不关心，可以不传，或传false）
+     * @param downCallback      向下滑动的监听回调（若不关心，可以不传，或传false）
+     * @param leftCallback      向左滑动的监听回调（若不关心，可以不传，或传false）
+     */
+    listenTouchDirection: function (target, isPreventDefault, upCallback, rightCallback, downCallback, leftCallback) {
+        this.addHandler(target, "touchstart", handleTouchEvent);
+        this.addHandler(target, "touchend", handleTouchEvent);
+        this.addHandler(target, "touchmove", handleTouchEvent);
+        var startX;
+        
+        var startY;
+        function handleTouchEvent(event) {
+            switch (event.type){
+                case "touchstart":
+                    startX = event.touches[0].pageX;
+                    startY = event.touches[0].pageY;
+                    break;
+                case "touchend":
+                    var spanX = event.changedTouches[0].pageX - startX;
+                    var spanY = event.changedTouches[0].pageY - startY;
+
+                    if(Math.abs(spanX) > Math.abs(spanY)){      //认定为水平方向滑动
+                        if(spanX > 30){         //向右
+                            if(rightCallback)
+                                rightCallback();
+                        } else if(spanX < -30){ //向左
+                            if(leftCallback)
+                                leftCallback();
+                        }
+                    } else {                                    //认定为垂直方向滑动
+                        if(spanY > 30){         //向下
+                            if(downCallback)
+                                downCallback();
+                        } else if (spanY < -30) {//向上
+                            if(upCallback)
+                                upCallback();
+                        }
+                    }
+                    break;
+                case "touchmove":
+                    //阻止默认行为
+                    if(isPreventDefault){
+                        event.preventDefault();
+                        console.log('stop')
+                    }
+                    break;
+            }
+        }
+    }
+};
+function up(){
+    console.log("action:up");
+    move(0,block,deleteBlock);
+    for(let e of deleteBlock){
+        e.e.remove();
+        console.log(e);
+    }
+    deleteBlock.length = 0;
+}
+function right(){
+    console.log("action:right");
+    move(1,block,deleteBlock);
+    for(let e of deleteBlock){
+        e.e.remove();
+        console.log(e);
+    }
+    deleteBlock.length = 0;
+}
+function down(){
+    console.log("action:down");
+    move(2,block,deleteBlock);
+    for(let e of deleteBlock){
+        e.e.remove();
+        console.log(e);
+    }
+    deleteBlock.length = 0;
+}
+function left(){
+    console.log("action:left");
+    move(3,block,deleteBlock);
+    for(let e of deleteBlock){
+        e.e.remove();
+        console.log(e);
+    }
+    deleteBlock.length = 0;
+}
+
 function main(){
     // document.getElementsByTagName("body")[0].requestFullscreen()
     document.getElementById("endGame").style.display = "none";
-    alert("请使用W，A，S，D来游玩");
+    alert("电脑端请使用W，A，S，D来游玩, 手机端请上下左右滑动屏幕来游玩");
     totalScore = 0;
     updateScore(0);
     console.log(deleteBlock);
@@ -348,6 +461,10 @@ function main(){
     }
     newCell(block,2);
     newCell(block,2);
+    //使用的时候很简单，只需要向下面这样调用即可
+    //其中下面监听的是整个DOM
+    //up, right, down, left为四个回调函数，分别处理上下左右的滑动事件
+    EventUtil.listenTouchDirection(document, true, up, right, down, left)
     //监听键盘
     //设置标志，键盘可以按下为true，按下一次换为false，防止一次按键多次事件
     var flag = true;
