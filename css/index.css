@@ -1,0 +1,242 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color:RGB(250,248,239);
+}
+.myBody{
+    width: 500px;
+    margin: 0 auto;
+    background-color: RGB(250,248,239);
+}
+
+#endGame{
+    position:fixed;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    top:0px;
+    opacity: 0.8;
+    display: none;
+}
+
+#endText{
+    margin-top: 15%;
+    text-align: center;
+    color: white;
+    font-size: 50px;
+}
+
+#endScore{
+    color: red;
+    font-size: 120px;
+    text-align: center;
+}
+
+/* 游戏头部的css */
+#heads{
+    height: 60px;
+    padding-top: 10px;
+}
+.title{
+    float: left;
+    color: RGB(119,110,101);
+    font-size: 50px;
+    height: 50px;
+    line-height: 50px;
+    margin-left: 20px;
+}
+.score{
+    float: right;
+    width: 100px;
+    height: 50px;
+    margin:0px 10px 0 0;
+    text-align: center;
+    border-radius: 10px;
+    background-color: RGB(187,173,160);
+}
+
+.score-title{
+    color:RGB(238,228,214);
+    margin-top: 3px;
+    font-size: 15px;
+}
+
+.score-body{
+    color: white;
+    font-size: 20px;
+}
+
+/* 开始游戏按钮 */
+#begin-games{
+    background-color: RGB(143,122,102);
+    width: 150px;
+    height: 40px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+#begin-games:hover{
+    background-color: RGB(163,122,102);
+    transform: scale(1.05);
+    transition: all 0.3s;
+}
+
+#begin-games:active{
+    background-color: rgb(87, 47, 20);
+    transform: scale(0.9);
+}
+
+/* 游戏主体 */
+#games{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: RGB(187,173,160);
+    width: 470px;
+    height: 470px;
+    margin: 0 auto;
+    margin-top: 20px;
+    border: 5px solid RGB(187,173,160);
+    border-radius: 10px;
+}
+
+.line{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    /* margin-top: 10px; */
+    height: 100px;
+}
+
+.cell{
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    /* margin-left: 10px; */
+    background-color: RGB(205,193,180);
+    border-radius: 5px;
+}
+
+/* 方块的属性 */
+.block{
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    line-height: 100px;
+    text-align: center;
+    position: absolute;
+    background-color: red;
+    top: 126.5px;
+    left: 126.5px;
+    transition: top .3s,left .3s;
+}
+
+.block-appear{
+    animation: block-appear .5s;
+}
+
+.block-new{
+    animation: block-new 1s;
+}
+
+.block-2{
+    color: rgb(0, 0, 0);
+    background-color: rgb(245, 184, 184);
+    box-shadow: 0 0 0;
+}
+
+.block-4{
+    color: rgb(0, 0, 0);
+    background-color: rgb(212, 212, 161);
+    box-shadow: 0 0 0;
+}
+
+.block-8{
+    color: rgb(0, 0, 0);
+    background-color: rgb(181, 226, 128);
+    box-shadow: 0 0 0;
+}
+
+.block-16{
+    color: rgb(0, 0, 0);
+    background-color: rgb(82, 231, 119);
+    box-shadow: 0 0 20px rgb(82, 231, 119);
+}
+
+.block-32{
+    color: rgb(0, 0, 0);
+    background-color: rgb(25, 146, 112);
+    box-shadow: 0 0 20px rgb(25, 146, 112);
+}
+
+.block-64{
+    color: rgb(0, 0, 0);
+    background-color: rgb(8, 75, 131);
+    box-shadow: 0 0 25px rgb(8, 75, 131);
+}
+
+.block-128{
+    color: rgb(0, 0, 0);
+    background-color: rgb(100, 31, 128);
+    box-shadow: 0 0 25px rgb(100, 31, 128);
+}
+
+.block-256{
+    color: rgb(255, 255, 255);
+    background-color: rgb(224, 240, 9);
+    box-shadow: 0 0 30px rgb(224, 240, 9);
+}
+
+.block-512{
+    color: rgb(255, 255, 255);
+    background-color: rgb(115, 138, 0);
+    box-shadow: 0 0 30px rgb(39, 46, 2);
+}
+
+.block-1024{
+    color: rgb(255, 255, 255);
+    background-color: rgb(5, 0, 0);
+    box-shadow: 0 0 30px rgb(5, 0, 0);
+}
+
+.block-2048{
+    color: rgb(0, 0, 0);
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 40px rgb(255, 255, 255);
+}
+
+@keyframes block-appear {
+    from{
+        transform: scale(0);
+        opacity: 0.5;
+    }
+    to{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes block-new {
+    0%{
+        opacity: 0;
+    }
+    29%{
+        opacity: 0.3;
+    }
+    30%{
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
