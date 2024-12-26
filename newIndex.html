@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/index.css" rel="stylesheet" type="text/css"/>
+    <title>2048</title>
+</head>
+<body>
+    <div class="myBody">
+        <div id="heads">
+            <h1 class="title">贰〇肆仈</h1>
+            <div class="score">
+                <div class="score-title">得分</div>
+                <div class="score-body" id="now-score">0</div>
+            </div>
+            <div class="score">
+                <div class="score-title">最高分</div>
+                <div class="score-body" id="best-score">0</div>
+            </div>
+        </div>
+        <div id="begin-games" onclick="startGame()">
+            开始新游戏
+        </div>
+        <div id="games">
+            <canvas id="canvas" width="1000px" height="1000px">
+
+            </canvas>
+        </div>
+    </div>
+    <div id="endGame">
+        <div id="endText">游戏结束，您的得分为</div>
+        <div id="endScore">1000</div>
+        <div id="begin-games" onclick="startGame()">
+            重新开始游戏
+        </div>
+    </div>
+</body>
+<script src="js/main.js"></script>
+</html>
